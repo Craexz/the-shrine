@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-client_id" content="474337374940-53ouv6a9ht9lqsti7s46liql8c2sphpm.apps.googleusercontent.com">
+
+	<style>
+		body {
+			background-image: url("https://i.pinimg.com/originals/e9/a5/fc/e9a5fc0bae099901457e61dc68d6e347.jpg");
+			overflow-x: hidden;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		#title {
+			background-color: rgba(0,0,0, 0.6);
+			width: 110%;
+			height: 150px;
+			position: absolute;
+			top: -40px;
+			left: -5%;
+			background-radius: 30px;
+		}
+
+		h1 {
+			font-family: "Bebas Neue";
+			font-size: 70px;
+			color: grey;
+			text-align: center;
+		}
+    button {
+      font-family: "Bebas Neue";
+			font-size: 70px;
+			color: grey;
+			text-align: center;
+    }
+
+    #currency {
+      position: absolute;
+      top: 0%;
+      left: 2%;
+      color: cyan;
+      border-radius: 15px;
+      font-size: 30px;
+      background-color: transparent;
+    }
+    #paymentwindow {
+      text-align: center;
+      color: cyan;
+      background-color: rgba(128,128,128, 0.685);
+      height: 40px;
+      border-width: 1px;
+      border-color: cyan;
+      padding: 5px;
+      border-radius: 30px;
+      width: auto;
+      
+    }
+
+    #user {
+      background-color: black;
+      color:gold;
+      border-radius: 10px;
+      height: 38px;
+      font-size: 20px;
+    }
+
+    #amount {
+      background-color: black;
+      color:gold;
+      border-radius: 10px;
+      height: 38px;
+      font-size: 20px;
+    }
+    
+    #submit {
+      background-color: grey;
+      color:white;
+      border-color: black;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 20px;
+      border-width: 1px;
+    }
+    
+    #submit:hover{
+      transition: 0.6s;
+      background-color: black;
+      cursor: pointer;
+      border-width: 2px;
+      border-color: cyan;
+    }
+    #firstpost {
+      text-align: center;
+      background-color: black;
+      opacity: 0.7;
+      border-color: white;
+      border-width: 2px;
+    }
+    #secondpost {
+      text-align: center;
+      background-color: black;
+      opacity: 0.7;
+      border-color: white;
+      border-width: 2px;
+    }
+    #thirdpost {
+      text-align: center;
+      background-color: black;
+      opacity: 0.7;
+      border-color: white;
+      border-width: 2px;
+    }
+    h2 {
+      color: gold;
+    }
+    p {
+      color: white;
+    }
+    #createpost {
+      text-align: center;
+    }
+    #buybutton {
+      color: white;
+      background-color: grey;
+      border-radius: 25px;
+      border-width: 0px;
+
+
+    }
+    #buybutton:hover {
+      transition: 0.6s;
+      background-color: black;
+      border-color: cyan;
+      border-width: 1px;
+    }
+    #price {
+      color: gold;
+    }
+    #subtitle {
+      color: white;
+      background-color: grey;
+      border-radius: 20px;
+      text-align: center;
+    }
+    #createpost {
+      background-color: rgba(128,128,128, 0.6);
+      border-radius: 20px;
+    }
+    #title_ {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #price {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #description {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #link {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #createpostsubmit {
+      color: white;
+      background-color: grey;
+      font-size: 20px;
+      font-family: 'Courier New';
+    }
+    #createpostsubmit:hover {
+      transition: 0.6s;
+      background-color: black;
+      cursor: pointer;
+      border-width: 2px;
+      border-color: cyan;
+    }
+	</style>
+	<title>The Shrine - Home</title>
+</head>
+
+<body>
+	<div id = 'title'>
+		<h1>The Shrine</h1>
+	</div>
+
+
+<h4 type = 'text' id = 'currency'>Your tokens: {{ currency }} </h4>
+
+<br><br><br><br><br><br><br>
+<div id = 'paymentwindow'>
+<form method="POST" action = '/payment'>
+  <input type = 'text' placeholder = 'User to pay' name = 'user' id = 'user'>
+  <input type = 'text'placeholder = 'Amount to pay' name = 'amount' id ='amount'>
+  <button type = 'submit' id = 'submit'>PAY</button>
+</form>
+</div>
+<br>
+<div id = 'createpost'>
+  <form method="POST" action = '/createpost'>
+    <h2 id = 'subtitle'> Post your product </h2>
+    <input name = 'title' type = 'text' placeholder = 'Enter title for post' id = 'title_'>
+    <input name = 'price' type = 'text' placeholder = 'Enter price for post' id = 'price'>
+    <input name = 'description' type = 'text' placeholder = 'description' id = 'description'>
+    <input name = 'link' type = 'text' placeholder = 'Link to product' id = 'link'>
+    <input type = 'submit' text = 'Create post' id = 'createpostsubmit'>
+  </form>
+</div>
+<br><br>
+<div id = 'firstpost'>
+  <form action = '/buyfirstpost'>
+    <button id = 'buybutton'> {{ title1 }} </button>
+  </form>
+  <h1 id = 'price' style = 'font-size: 30px;'> {{ price1 }} </h1>
+  <h1> {{ description1 }} </h1>
+</div>
+<div id = 'secondpost'>
+  <form action = '/buysecondpost'>
+    <button id = 'buybutton'> {{ title2 }} </button>
+  </form>
+  <h1 id = 'price' style = 'font-size: 30px;'> {{ price2 }} </h1>
+  <h1> {{ description2 }} </h1>
+</div>
+<div id = 'thirdpost'>
+  <form action = '/buythirdpost'>
+    <button id = 'buybutton'> {{ title3 }} </button>
+  </form>
+  <h1 id = 'price' style = 'font-size: 30px;'> {{ price3 }} </h1>
+  <h1> {{ description3 }} </h1>
+</div>
+
+</body> 
+</html>
