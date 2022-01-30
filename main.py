@@ -34,7 +34,7 @@ def send_report():
     reportfile = open('reports.txt', 'a')
     reportfile.write(report)
     reportfile.write('\n')
-    return render_template('message.html', message="Sent report successfully!")
+    return render_template('message.html', message="Sent report successfully!", currency=currrency)
 
 
 @app.route("/login")
@@ -44,7 +44,6 @@ def load_login():
 
 @app.route('/homepage', methods=['POST'])
 def homepage():
-    global username_
     username_ = request.form['username']
     password_ = request.form['password']
     usernamefile = open("src/usernames.txt", 'r')
@@ -64,9 +63,8 @@ def homepage():
         passwords.append(password)
 
     try:  
-        global usernameindex
-        usernameindex = usernames.index(username_)
-        usernameindex = int(usernameindex)
+        usernameindex = str(usernames.index(username_))
+        usernameindexint = int(usernameindex)
     except ValueError:
         return render_template("incorrectlogin.html")
     currencylist = []
@@ -75,10 +73,8 @@ def homepage():
         currencylines = currencyfile.read().splitlines()
         for currency in currencylines:
             currencylist.append(currency)
-        currency = currencylist[usernameindex]
+        currency = currencylist[usernameindexint]
         currency = decode(currency)
-        global currency__ 
-        currency__ = currency
         postlist = []
 
         postsfile = open('src/posts.txt', 'r')
@@ -87,20 +83,20 @@ def homepage():
         try:
             title1 = postlist[0]
         except IndexError:
-            return render_template('homepage.html', currency=currency)
+            return render_template('homepage.html', currency=currency, username = username_, usernameindex=usernameindex)
         try:
             price1 = postlist[1]
         except IndexError:
             return render_template('homepage.html',
                                    currency=currency,
-                                   title1=title1)
+                                   title1=title1, username = username_, usernameindex=usernameindex)
         try:
             description1 = postlist[2]
         except IndexError:
             return render_template('homepage.html',
                                    currency=currency,
                                    title1=title1,
-                                   price1="Price: " + price1)     
+                                   price1="Price: " + price1, username = username_, usernameindex=usernameindex)     
         try:
             title2 = postlist[5]
         except IndexError:
@@ -108,7 +104,7 @@ def homepage():
                                    currency=currency,
                                    title1=title1,
                                    price1="Price: " + price1,
-                                   description1="Description: " + description1)
+                                   description1="Description: " + description1, username = username_, usernameindex=usernameindex)
         try:
             price2 = postlist[6]
         except IndexError:
@@ -117,7 +113,7 @@ def homepage():
                                    title1=title1,
                                    price1="Price: " + price1,
                                    description1="Description: " + description1,
-                                   title2=title2)
+                                   title2=title2, username = username_, usernameindex=usernameindex)
         try:
             description2 = postlist[7]
         except IndexError:
@@ -127,7 +123,7 @@ def homepage():
                                    price1="Price: " + price1,
                                    description1="Description: " + description1,
                                    title2=title2,
-                                   price2="Price: " + price2)
+                                   price2="Price: " + price2, username = username_, usernameindex=usernameindex)
         try:
             title3 = postlist[10]
         except IndexError:
@@ -138,7 +134,7 @@ def homepage():
                                    description1="Description: " + description1,
                                    title2=title2,
                                    price2="Price: " + price2,
-                                   description2="Description: " + description2)
+                                   description2="Description: " + description2, username = username_, usernameindex=usernameindex)
         try:
             price3 = postlist[11]
         except IndexError:
@@ -150,7 +146,7 @@ def homepage():
                                    title2=title2,
                                    price2="Price: " + price2,
                                    description2="Description: " + description2,
-                                   title3=title3)
+                                   title3=title3, username = username_, usernameindex=usernameindex)
         try:
             description3 = postlist[12]
         except IndexError:
@@ -163,7 +159,7 @@ def homepage():
                                    price2="Price: " + price2,
                                    description2="Description: " + description2,
                                    title3=title3,
-                                   price3="Price: " + price3)
+                                   price3="Price: " + price3, username = username_, usernameindex=usernameindex)
 
         return render_template('homepage.html',
                                currency=currency,
@@ -175,7 +171,7 @@ def homepage():
                                description2="Description: " + description2,
                                title3=title3,
                                price3="Price: " + price3,
-                               description3="Description: " + description3)
+                               description3="Description: " + description3, username = username_, usernameindex=usernameindex)
     else:
         return render_template("incorrectlogin.html")
 
@@ -191,7 +187,7 @@ def post_signup():
     password = request.form['password']
     if username == '' or password == '':
         return render_template("message.html",
-                               message='Credentials not allowed, try again')
+                               message='Credentials not allowed, try again', currency=currrency)
     passwordfile = open("src/passwords.txt", 'r')
     usernamefile = open('src/usernames.txt', 'r')
 
@@ -221,14 +217,19 @@ def post_signup():
 
 @app.route('/payment', methods=['POST'])
 def payment():
+    currrency = request.form['currency']
     user = request.form['user']
     amount = request.form['amount']
+    localuser = request.form['username']
+    if user.replace(" ", "") == localuser.replace(" ", ""):
+        return render_template('message.html', message='You cant pay yourself silly', currency=currrency)
     amount = int(amount)
     accounts = [] 
     currencylist = [] 
 
     user_encrypted = encode(user)
-    local_user_encrypted = encode(username_)
+    local_user_encrypted = encode(request.form["username"].replace(" ", ""))
+
 
     usernamefile = open("src/usernames.txt", 'r')
     currencyfile = open('src/currency.txt', 'r')
@@ -240,7 +241,7 @@ def payment():
     except ValueError:
         return render_template('message.html',
                                message='User "' + user + '"' +
-                               ' does not exist')
+                               ' does not exist', currency=currrency)
     currencylines = currencyfile.read().splitlines()
     for currency in currencylines:
         currencylist.append(currency)
@@ -254,7 +255,7 @@ def payment():
     if amountint > local_currency_int:
         return render_template(
             'message.html',
-            message='Payment amount higher than your current balance')
+            message='Payment amount higher than your current balance', currency=currrency)
     current_currency = decode(current_currency)
     current_currency = int(current_currency)
     new_currency = amount + current_currency
@@ -274,18 +275,23 @@ def payment():
                 line = str(line)
                 writethis = line, "\n"
                 file.writelines(writethis)
+    newLocalCurrency = encode(str(local_currency_int-amountint))
 
     replace_line('src/currency.txt', accountindex, new_currency)  
-    return render_template("payment.html", user=user, payment_amount=amount)
+    replace_line("src/currency.txt", local_user_index, newLocalCurrency)
+    print(currency)
+    return render_template("payment.html", user=user, payment_amount=amount, currency = currrency)
 
 
-@app.route('/home')
+@app.route('/home', methods = ['POST'])
 def post_payment():
-    return render_template("homepage.html", currency=currency__)
+   currency = request.form['currency']
+   return render_template("homepage.html", currency=currency)
 
 
 @app.route('/createpost', methods=['POST'])
 def createpost():
+    username = request.form['username']
     title = request.form['title']
     price = request.form['price']
     description = request.form['description']
@@ -296,7 +302,7 @@ def createpost():
         linelist.append(line)
     if len(linelist) == 9 or len(linelist) > 9:
         return render_template('message.html',
-                               message='Posts are already taken')
+                               message='Posts are already taken', currency=currrency)
     postfile = open('src/posts.txt', 'a')   
     postfile.write(title)
     postfile.write('\n')
@@ -306,7 +312,7 @@ def createpost():
     postfile.write('\n')
     postfile.write(link)
     postfile.write('\n')
-    postfile.write(username_)
+    postfile.write(username)
     postfile.write('\n')
 
     return render_template('relogin.html')
@@ -314,6 +320,8 @@ def createpost():
 
 @app.route("/buyfirstpost")
 def buyfirstpost():
+    usernameindex = request.form['usernameindex']
+    username = request.form['username']
     postfile = open('src/posts.txt', 'r')
     postlines = []
     for line in postfile.read().splitlines():
@@ -327,7 +335,7 @@ def buyfirstpost():
 
     poster_encrypted = encode(poster)
 
-    local_user_encrypted = encode(username_)
+    local_user_encrypted = encode(username)
 
     usernamefile = open("src/usernames.txt", 'r')
     currencyfile = open('src/currency.txt', 'r')
@@ -348,7 +356,7 @@ def buyfirstpost():
     if amountint > local_currency_int:
         return render_template(
             'message.html',     
-            message='Payment amount higher than your current balance')
+            message='Payment amount higher than your current balance', currency=currrency)
 
     current_currency = decode(current_currency)
 
@@ -398,6 +406,8 @@ def buyfirstpost():
 
 @app.route("/buysecondpost")
 def buysecondpost():
+    username = request.form['username']
+    usernameindex = request.form['usernameindex']
     postfile = open('src/posts.txt', 'r')
     postlines = []
     for line in postfile.read().splitlines():
@@ -411,7 +421,7 @@ def buysecondpost():
 
     poster_encrypted = encode(poster)
 
-    local_user_encrypted = encode(username_)
+    local_user_encrypted = encode(username)
 
     usernamefile = open("src/usernames.txt", 'r')
     currencyfile = open('src/currency.txt', 'r')
@@ -431,7 +441,7 @@ def buysecondpost():
     if amountint > local_currency_int:
         return render_template(
             'message.html',
-            message='Payment amount higher than your current balance')
+            message='Payment amount higher than your current balance', currency=currrency)
 
     current_currency = decode(current_currency)
     current_currency = int(current_currency)
@@ -477,6 +487,8 @@ def buysecondpost():
 
 @app.route("/buythirdpost") 
 def buythirdpost():
+    usernameindex = request.form['usernameindex']
+    username = request.form['username']
     postfile = open('src/posts.txt', 'r')
     postlines = []
     for line in postfile.read().splitlines():
@@ -490,7 +502,7 @@ def buythirdpost():
 
     poster_encrypted = encode(poster)
 
-    local_user_encrypted = encode(username_)
+    local_user_encrypted = encode(username)
 
     usernamefile = open("src/usernames.txt", 'r')
     currencyfile = open('src/currency.txt', 'r')
@@ -510,7 +522,7 @@ def buythirdpost():
     if amountint > local_currency_int:
         return render_template(
             'message.html',
-            message='Payment amount higher than your current balance')
+            message='Payment amount higher than your current balance', currency=currrency)
 
     current_currency = decode(current_currency)
     current_currency = int(current_currency)
@@ -555,4 +567,4 @@ def buythirdpost():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80, debug=True)
