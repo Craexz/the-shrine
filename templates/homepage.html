@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-signin-client_id" content="474337374940-53ouv6a9ht9lqsti7s46liql8c2sphpm.apps.googleusercontent.com">
+
+	<style>
+		body {
+			background-image: url("https://i.pinimg.com/originals/e9/a5/fc/e9a5fc0bae099901457e61dc68d6e347.jpg");
+			overflow-x: hidden;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		#title {
+			background-color: rgba(0,0,0, 0.6);
+			width: 110%;
+			height: 150px;
+			position: absolute;
+			top: -40px;
+			left: -5%;
+			background-radius: 30px;
+		}
+
+		h1 {
+			font-family: "Bebas Neue";
+			font-size: 70px;
+			color: grey;
+			text-align: center;
+		}
+    button {
+      font-family: "Bebas Neue";
+			font-size: 70px;
+			color: grey;
+			text-align: center;
+    }
+
+    #currency {
+      position: absolute;
+      top: 0%;
+      left: 2%;
+      color: cyan;
+      border-radius: 15px;
+      font-size: 30px;
+      background-color: transparent;
+    }
+    #paymentwindow {
+      text-align: center;
+      color: cyan;
+      background-color: rgba(128,128,128, 0.685);
+      height: 40px;
+      border-width: 1px;
+      border-color: cyan;
+      padding: 5px;
+      border-radius: 30px;
+      width: auto;
+      
+    }
+
+    #user {
+      background-color: black;
+      color:gold;
+      border-radius: 10px;
+      height: 38px;
+      font-size: 20px;
+    }
+
+    #amount {
+      background-color: black;
+      color:gold;
+      border-radius: 10px;
+      height: 38px;
+      font-size: 20px;
+    }
+    
+    #submit {
+      background-color: grey;
+      color:white;
+      border-color: black;
+      height: 38px;
+      border-radius: 10px;
+      font-size: 20px;
+      border-width: 1px;
+    }
+    
+    #submit:hover{
+      transition: 0.6s;
+      background-color: black;
+      cursor: pointer;
+      border-width: 2px;
+      border-color: cyan;
+    }
+    #firstpost {
+      text-align: center;
+      background-color: black;
+      opacity: 0.7;
+      border-color: white;
+      border-width: 2px;
+    }
+    #secondpost {
+      text-align: center;
+      background-color: black;
+      opacity: 0.7;
+      border-color: white;
+      border-width: 2px;
+    }
+    #thirdpost {
+      text-align: center;
+      background-color: black;
+      opacity: 0.7;
+      border-color: white;
+      border-width: 2px;
+    }
+    h2 {
+      color: gold;
+    }
+    p {
+      color: white;
+    }
+    #createpost {
+      text-align: center;
+    }
+    #buybutton {
+      color: white;
+      background-color: grey;
+      border-radius: 25px;
+      border-width: 0px;
+
+
+    }
+    #buybutton:hover {
+      transition: 0.6s;
+      background-color: black;
+      border-color: cyan;
+      border-width: 1px;
+    }
+    #price {
+      color: gold;
+    }
+    #subtitle {
+      color: white;
+      background-color: grey;
+      border-radius: 20px;
+      text-align: center;
+    }
+    #createpost {
+      background-color: rgba(128,128,128, 0.6);
+      border-radius: 20px;
+    }
+    #title_ {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #price {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #description {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #link {
+      background-color: rgba(0,0,0,0.8);
+      color: gold;
+      font-size:15px;
+      height: 30px;
+    }
+    #createpostsubmit {
+      color: white;
+      background-color: grey;
+      font-size: 20px;
+      font-family: 'Courier New';
+    }
+    #createpostsubmit:hover {
+      transition: 0.6s;
+      background-color: black;
+      cursor: pointer;
+      border-width: 2px;
+      border-color: cyan;
+    }
+	</style>
+	<title>The Shrine - Home</title>
+</head>
+
+<body>
+	<div id = 'title'>
+		<h1>The Shrine</h1>
+	</div>
+
+
+<h4 type = 'text' id = 'currency'>Your tokens: {{ currency }} </h4>
+
+<h1 style = "display:none;" id = "usernameStorage"> {{ username }} </h1>
+<h1 style = "display:none;" id = "usernameindexStorage"> {{ usernameindex }} </h1>
+<h1 style = "display:none;" id = "currencyStorage"> {{ currency }} </h1>
+
+<br><br><br><br><br><br><br>
+<div id = 'paymentwindow'>
+<form method="POST" action = '/payment'>
+  <input value = "" type="hidden" name="username" id = "username_1">
+  <input value = "" type="hidden" name="usernameindex" id = "usernameindex_1">
+  <input value = "" type="hidden" name="currency" id = "currency_1">
+  <input type = 'text' placeholder = 'User to pay' name = 'user' id = 'user'>
+  <input type = 'text'placeholder = 'Amount to pay' name = 'amount' id ='amount'>
+  <button type = 'submit' id = 'submit'>PAY</button>
+</form>
+</div>
+<br>
+<div id = 'createpost'>
+  <form method="POST" action = '/createpost'>
+    <h2 id = 'subtitle'> Post your product </h2>
+    <input value = "" type="hidden" name="username" id = "username_2">
+    <input value = "" type="hidden" name="usernameindex" id = "usernameindex_2">
+    <input value = "" type="hidden" name="currency" id = "currency_2">
+    <input name = 'title' type = 'text' placeholder = 'Enter title for post' id = 'title_'>
+    <input name = 'price' type = 'text' placeholder = 'Enter price for post' id = 'price'>
+    <input name = 'description' type = 'text' placeholder = 'description' id = 'description'>
+    <input name = 'link' type = 'text' placeholder = 'Link to product' id = 'link'>
+    <input type = 'submit' text = 'Create post' id = 'createpostsubmit'>
+  </form>
+</div>
+<br><br>
+<div id = 'firstpost'>
+  <form action = '/buyfirstpost'>
+    <input value = "" type="hidden" name="username" id = "username_3">
+    <input value = "" type="hidden" name="usernameindex" id = "usernameindex_3">
+    <input value = "" type="hidden" name="currency" id = "currency_3">
+    <button id = 'buybutton' type = 'submit'> {{ title1 }} </button>
+  </form>
+  <h1 id = 'price' style = 'font-size: 30px;'> {{ price1 }} </h1>
+  <h1> {{ description1 }} </h1>
+</div>
+<div id = 'secondpost'>
+  <form action = '/buysecondpost'>
+    <input value = "" type="hidden" name="username" id = "username_4">
+    <input value = "" type="hidden" name="usernameindex" id = "usernameindex_4">
+    <input value = "" type="hidden" name="currency" id = "currency_4">
+    <button id = 'buybutton' type = 'submit'> {{ title2 }} </button>
+  </form>
+  <h1 id = 'price' style = 'font-size: 30px;'> {{ price2 }} </h1>
+  <h1> {{ description2 }} </h1>
+</div>
+<div id = 'thirdpost'>
+  <form action = '/buythirdpost'>
+    <input value = "" type="hidden" name="username" id = "username_5">
+    <input value = "" type="hidden" name="usernameindex" id = "usernameindex_5">
+    <input value = "" type="hidden" name="currency" id = "currency_5">
+    <button id = 'buybutton' type = 'submit'> {{ title3 }} </button>
+  </form>
+  <h1 id = 'price' style = 'font-size: 30px;'> {{ price3 }} </h1>
+  <h1> {{ description3 }} </h1>
+</div>
+<script>
+  var username_ = document.getElementById("usernameStorage").innerHTML;
+  username_ = username_.substring(1);
+  document.getElementById("username_1").value = username_
+  document.getElementById("username_2").value = username_
+  document.getElementById("username_3").value = username_
+  document.getElementById("username_4").value = username_
+  document.getElementById("username_5").value = username_
+
+  var usernameindex = document.getElementById("usernameindexStorage").innerHTML;
+  usernameindex = usernameindex.substring(1);
+  document.getElementById("usernameindex_1").value = usernameindex
+  document.getElementById("usernameindex_2").value = usernameindex
+  document.getElementById("usernameindex_3").value = usernameindex
+  document.getElementById("usernameindex_4").value = usernameindex
+  document.getElementById("usernameindex_5").value = usernameindex
+
+  var currency = document.getElementById("currencyStorage").innerHTML;
+  currency = currency.substring(1);
+  document.getElementById("currency_1").value = currency
+  document.getElementById("currency_2").value = currency
+  document.getElementById("currency_3").value = currency
+  document.getElementById("currency_4").value = currency
+  document.getElementById("currency_5").value = currency
+</script>
+</body> 
+</html>
